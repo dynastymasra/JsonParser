@@ -14,7 +14,7 @@ public class Photos {
     private Integer height;
     @SerializedName("latitude")
     private String latitude;
-    @SerializedName("longtitude")
+    @SerializedName("longitude")
     private String longtitude;
     @SerializedName("owner_id")
     private Integer id;

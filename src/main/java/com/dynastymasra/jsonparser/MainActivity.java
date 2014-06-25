@@ -11,12 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import com.dynastymasra.jsonparser.adapter.CustomAdapter;
 import com.dynastymasra.jsonparser.domain.Panorama;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 public class MainActivity extends Activity {
+    private Panorama panorama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,19 +98,25 @@ public class MainActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(Panorama panorama) {
+        protected void onPostExecute(Panorama panor) {
             super.onPostExecute(panorama);
+            panorama = panor;
             TextView textView = (TextView) findViewById(R.id.test);
             TextView more = (TextView) findViewById(R.id.more);
             TextView lat = (TextView) findViewById(R.id.lat);
             TextView longt = (TextView) findViewById(R.id.longt);
             TextView zoom = (TextView) findViewById(R.id.zoom);
+            ListView listView = (ListView) findViewById(R.id.listView);
 
             textView.setText("Count \t\t\t: " + panorama.getCount());
             more.setText("More \t\t\t\t:" + panorama.getMore());
             lat.setText("Latitude \t\t\t:" + panorama.getMapLocation().getLat());
             longt.setText("Longtitude \t\t:" + panorama.getMapLocation().getLon());
             zoom.setText("Zoom \t\t\t\t:" +panorama.getMapLocation().getZoom());
+
+            CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, panorama);
+            listView.setAdapter(customAdapter);
+
             progressDialog.dismiss();
         }
     }
